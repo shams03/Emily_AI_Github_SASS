@@ -1,4 +1,5 @@
 import "@/styles/globals.css";
+//could use sonner instead of toast
 
 import { type Metadata } from "next";
 import { Geist } from "next/font/google";
