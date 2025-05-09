@@ -66,7 +66,7 @@ export function AppSidebar() {
     <Sidebar collapsible="icon" variant="floating">
       <SidebarHeader>
         <div className="flex items-center justify-center gap-2">
-          <Image src="/logo.png" alt="logo" width={42} height={48} />
+          <Image src="/logo2.png" alt="logo" width={78} height={78} />
           {open && <h1 className="ml-2 text-2xl font-bold">Emily</h1>}
         </div>
       </SidebarHeader>
