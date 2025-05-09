@@ -6,6 +6,7 @@ import { api } from "@/trpc/react";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import useRefetch from "@/hooks/use-refetch";
 
 type FormInput = {
   repoUrl: string;
@@ -17,20 +18,27 @@ const CreatePage = () => {
   const { register, handleSubmit, reset } = useForm<FormInput>();
   const createProject = api.project.createProject.useMutation(); //used to call the backend function
 
+  const refetch = useRefetch();
+
   const onSubmit = (data: FormInput) => {
     // window.alert(JSON.stringify(data, null, 2));
-    createProject.mutate({
-      name: data.projectName,
-      githubUrl: data.repoUrl,
-      githubToken: data.githubToken,
-    },{
-      onSuccess:()=>{
-        toast.success("Project created successfully");
+    createProject.mutate(
+      {
+        name: data.projectName,
+        githubUrl: data.repoUrl,
+        githubToken: data.githubToken,
       },
-      onError:()=>{
-        toast.error("Failed to create project");
-      }
-    });
+      {
+        onSuccess: () => {
+          toast.success("Project created successfully");
+          void refetch();
+          reset();
+        },
+        onError: () => {
+          toast.error("Failed to create project");
+        },
+      },
+    );
     console.log(data);
   };
 
@@ -63,9 +71,13 @@ const CreatePage = () => {
             <Input
               className="mt-1"
               {...register("githubToken", { required: true })}
-              placeholder="github-token"
+              placeholder="github-token (optional)"
             />
-            <Button className="mt-2" type="submit">
+            <Button
+              className="mt-2"
+              type="submit"
+              disabled={createProject.isPending}
+            >
               Link Repo
             </Button>
           </form>
