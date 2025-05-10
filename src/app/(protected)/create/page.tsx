@@ -70,7 +70,7 @@ const CreatePage = () => {
             />
             <Input
               className="mt-1"
-              {...register("githubToken", { required: true })}
+              {...register("githubToken", )}
               placeholder="github-token (optional)"
             />
             <Button
@@ -80,6 +80,7 @@ const CreatePage = () => {
             >
               Link Repo
             </Button>
+            {createProject.isPending && toast.loading("Linking repo...")}
           </form>
         </div>
       </div>

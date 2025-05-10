@@ -19,6 +19,7 @@ import useRefetch from "@/hooks/use-refetch";
 import { askQuestion } from "../actions";
 import CodeReferences from "./CodeReferences";
 import Image from "next/image";
+import { Loader2 } from "lucide-react";
 
 const AskQuestionCrad = () => {
   const { project } = useProject();
@@ -41,22 +42,33 @@ const AskQuestionCrad = () => {
     setLoading(true);
     setOpen(true);
 
-    const { output, filesReferences } = await askQuestion(question, project.id);
-    setFilesReferences(filesReferences);
+    try {
+      const { output, filesReferences } = await askQuestion(
+        question,
+        project.id,
+      );
+      setFilesReferences(filesReferences);
 
-    for await (const delta of readStreamableValue(output)) {
-      if (delta) {
-        setAnswer((ans) => ans + delta);
+      let streamStarted = false;
+      for await (const delta of readStreamableValue(output)) {
+        if (!streamStarted) {
+          streamStarted = true;
+          setLoading(false);
+        }
+        if (delta) {
+          setAnswer((ans) => ans + delta);
+        }
       }
+    } catch (error) {
+      setLoading(false);
+      toast.error("Failed. Too many requests are being made . Consider Upgrading ...");
     }
-
-    setLoading(false);
   };
 
   return (
     <>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="sm:max-w-[80vw]">
+        <DialogContent className="flex !h-full flex-col overflow-y-scroll sm:max-w-[80vw]">
           <DialogHeader>
             <div className="flex items-center gap-2">
               <DialogTitle>
@@ -90,22 +102,33 @@ const AskQuestionCrad = () => {
               </Button>
             </div>
           </DialogHeader>
-          <div data-color-mode="light">
-            <ScrollArea className="m-auto !h-full max-h-[40vh] max-w-[70vw] overflow-auto">
-              <MDEditor.Markdown source={answer} />
-            </ScrollArea>
+          <div className="flex-1 overflow-y-auto">
+            <div data-color-mode="light">
+              <ScrollArea className="m-auto !h-full max-h-[40vh] max-w-[70vw] overflow-auto">
+                <MDEditor.Markdown source={answer} />
+              </ScrollArea>
+            </div>
+            {loading && (<>
+              <div className="flex mt-2 items-center justify-center">
+                <Loader2 className="h-8 w-8 animate-spin" />
+              </div>
+              <p className="text-red-500 mt-2 font-mono text-center top-0 h-full">Click on the file names to open them in Emily</p>
+              </>
+            )}
+            <div className="h-4"></div>
+            <CodeReferences filesReferences={filesReferences} />
           </div>
-
-          <div className="h-4"></div>
-          <CodeReferences filesReferences={filesReferences} />
-          <Button
-            type="button"
-            onClick={() => {
-              setOpen(false);
-            }}
-          >
-            Close
-          </Button>
+          <div className="bg-background sticky bottom-0 pt-4">
+            <Button
+              type="button"
+              onClick={() => {
+                setOpen(false);
+              }}
+              className="w-full"
+            >
+              Close
+            </Button>
+          </div>
         </DialogContent>
       </Dialog>
       <Card className="relative col-span-3">

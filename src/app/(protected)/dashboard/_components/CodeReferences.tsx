@@ -15,12 +15,11 @@ type Props = {
 };
 
 const CodeReferences = ({ filesReferences }: Props) => {
-
   const [tab, setTab] = React.useState(filesReferences[0]?.fileName);
   if (filesReferences.length === 0) return null;
 
   return (
-    <div className="m-auto max-w-[70vw]">
+    <div className="m-auto max-h-[60vh] max-w-[70vw] overflow-x-scroll overflow-y-scroll">
       <Tabs value={tab} onValueChange={setTab}>
         <ScrollArea className="w-full overflow-auto">
           <div className="flex gap-2 rounded-md bg-gray-200 p-1">
@@ -48,7 +47,7 @@ const CodeReferences = ({ filesReferences }: Props) => {
             value={file.fileName}
             className="max-w-7xl rounded-md"
           >
-            <div className="max-h-[25vh] w-full overflow-auto">
+            <div className="!h-full max-h-[70vh] w-full overflow-auto overflow-y-scroll">
               <SyntaxHighlighter
                 language="typescript"
                 style={lucario}

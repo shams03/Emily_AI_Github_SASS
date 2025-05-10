@@ -15,8 +15,9 @@ import dynamic from "next/dynamic";
 
 type Props = {};
 
-const page = ({}: Props) => {
+const Page = ({}: Props) => {
   const { project } = useProject();
+
   return (
     <div>
       <div className="flex flex-wrap items-center justify-between gap-y-4">
@@ -64,4 +65,4 @@ const page = ({}: Props) => {
   );
 };
 
-export default page;
+export default Page;

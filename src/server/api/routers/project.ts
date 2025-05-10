@@ -3,7 +3,6 @@ import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 import { pullCommits } from "@/lib/github";
 import { checkCredits, indexGithubRepo } from "@/lib/github-loader";
 
-
 export const projectRouter = createTRPCRouter({
   createProject: protectedProcedure
     .input(
@@ -55,7 +54,7 @@ export const projectRouter = createTRPCRouter({
       return project;
     }),
 
-    getCommits: protectedProcedure
+  getCommits: protectedProcedure
     .input(
       z.object({
         projectId: z.string(),
@@ -94,7 +93,7 @@ export const projectRouter = createTRPCRouter({
       }),
     )
     .query(async ({ ctx, input }) => {
-      return await ctx.db.question.findMany({
+      const questions = await ctx.db.question.findMany({
         where: {
           projectId: input.projectId,
         },
@@ -105,6 +104,8 @@ export const projectRouter = createTRPCRouter({
           createdAt: "desc",
         },
       });
+      console.log("questions", questions);
+      return questions;
     }),
   uploadMeeting: protectedProcedure
     .input(

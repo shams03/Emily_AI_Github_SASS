@@ -5,7 +5,7 @@ import { ArrowUpLeftFromSquare, Presentation, Upload } from "lucide-react";
 import React from "react";
 import { useDropzone } from "react-dropzone";
 import { buildStyles, CircularProgressbar } from "react-circular-progressbar";
-import { uploadFile } from "@/lib/cloudinary";
+// import { uploadFile } from "@/lib/cloudinary";
 import { api } from "@/trpc/react";
 import useProject from "@/hooks/use-project";
 import { toast } from "sonner";
@@ -55,10 +55,11 @@ const MeetingCard = () => {
       if (!file) return;
 
       // after getting file, now upload it to cloudinary
-      const downloadURL = (await uploadFile(
-        file as File,
-        setProgress,
-      )) as string;
+      // const downloadURL = (await uploadFile(
+      //   file as File,
+      //   setProgress,
+      // )) as string;
+      const downloadURL=""
       uploadMeeting.mutate(
         {
           projectId: project.id,
