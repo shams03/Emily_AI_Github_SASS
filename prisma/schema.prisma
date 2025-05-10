@@ -3,11 +3,14 @@
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+ shadowDatabaseUrl = env("SHADOW_DATABASE_URL")  // Shadow DB URL
+  extensions = [vector]
 }
 
 model User {
@@ -35,6 +38,9 @@ model Project{
  
  deletedAt DateTime?
  userToProjects UserToProject[]
+ commits Commit[]
+
+sourceCodeEmbeddings SourceCodeEmbedding[]
 }
 
 
@@ -52,4 +58,36 @@ model UserToProject{
   @@unique([userId, projectId])
  
  
+}
+
+model Commit{
+  id String @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  projectId String
+  project Project @relation(fields: [projectId],references: [id])
+
+  commitHash String
+  commitMessage String
+  commitAuthorName String
+  commitAuthorAvatar String
+  commitDate DateTime
+  summary String
+
+  // @@unique([projectId, commitHash])
+
+}
+
+
+model SourceCodeEmbedding {
+    id String @id @default(cuid())
+
+    summaryEmbedding Unsupported("vector(768)")?
+    sourceCode       String
+    fileName         String
+    summary          String
+
+    projectId String
+    project   Project @relation(fields: [projectId], references: [id])
 }
