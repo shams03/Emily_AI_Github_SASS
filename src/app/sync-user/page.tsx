@@ -2,21 +2,26 @@ import { db } from "@/server/db";
 import { auth, clerkClient } from "@clerk/nextjs/server";
 import { notFound, redirect } from "next/navigation";
 
-const SyncUser = async () => {
+type Props = {};
+
+const page = async ({}: Props) => {
   const { userId } = await auth();
+
   if (!userId) {
-    redirect("/sign-in");
+    throw new Error("User not found");
   }
 
-  const clerk = await clerkClient();
-  const user = await clerk.users.getUser(userId);
+  const client = await clerkClient();
+  const user = await client.users.getUser(userId);
+
+  console.log(user);
   if (!user.emailAddresses[0]?.emailAddress) {
     return notFound();
   }
 
   await db.user.upsert({
     where: {
-      emailAddress: user.emailAddresses[0]?.emailAddress ?? "",
+      emailAddress: user.emailAddresses[0].emailAddress ?? "",
     },
     update: {
       imageUrl: user.imageUrl,
@@ -25,7 +30,7 @@ const SyncUser = async () => {
     },
     create: {
       id: userId,
-      emailAddress: user.emailAddresses[0]?.emailAddress ?? "",
+      emailAddress: user.emailAddresses[0].emailAddress,
       imageUrl: user.imageUrl,
       firstName: user.firstName,
       lastName: user.lastName,
@@ -35,4 +40,4 @@ const SyncUser = async () => {
   return redirect("/dashboard");
 };
 
-export default SyncUser;
+export default page;
