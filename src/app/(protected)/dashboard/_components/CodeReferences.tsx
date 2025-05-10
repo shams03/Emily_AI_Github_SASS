@@ -25,10 +25,11 @@ const CodeReferences = ({ filesReferences }: Props) => {
           <div className="flex gap-2 rounded-md bg-gray-200 p-1">
             {filesReferences.map((file) => (
               <button
+      
                 onClick={() => setTab(file.fileName)}
                 key={file.fileName}
                 className={cn(
-                  "text-muted-foreground hover:bg-muted-foreground hover:text-primary-foreground max-w-[80vw] rounded-md px-3 py-1.5 text-sm font-medium whitespace-nowrap transition-colors",
+                  "text-muted-foreground hover:bg-muted-foreground hover:text-primary-foreground max-w-[80vw] rounded-md px-3 py-1.5 text-sm font-medium whitespace-nowrap transition-colors cursor-pointer",
                   {
                     "bg-primary text-primary-foreground": tab === file.fileName,
                   },

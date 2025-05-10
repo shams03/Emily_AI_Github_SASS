@@ -15,6 +15,7 @@ const ArchiveButton = () => {
     <div>
       <Button
         disabled={archiveProject.isPending}
+        className="cursor-pointer"
         size="sm"
         variant="destructive"
         onClick={() => {

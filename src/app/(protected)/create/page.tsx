@@ -74,7 +74,7 @@ const CreatePage = () => {
               placeholder="github-token (optional)"
             />
             <Button
-              className="mt-2"
+              className="mt-2 cursor-pointer"
               type="submit"
               disabled={createProject.isPending}
             >

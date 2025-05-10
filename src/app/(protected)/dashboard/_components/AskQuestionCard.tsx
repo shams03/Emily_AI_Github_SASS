@@ -76,6 +76,7 @@ const AskQuestionCrad = () => {
                 {/* Logo */}
               </DialogTitle>
               <Button
+                className="cursor-pointer"
                 variant={"outline"}
                 disabled={saveAnswer.isPending}
                 onClick={() => {
@@ -120,11 +121,12 @@ const AskQuestionCrad = () => {
           </div>
           <div className="bg-background sticky bottom-0 pt-4">
             <Button
+              
               type="button"
               onClick={() => {
                 setOpen(false);
               }}
-              className="w-full"
+              className="w-full cursor-pointer"
             >
               Close
             </Button>
@@ -143,7 +145,7 @@ const AskQuestionCrad = () => {
               onChange={(e) => setQuestion(e.target.value)}
             ></Textarea>
             <div className="h-4"></div>
-            <Button type="submit" disabled={loading}>
+            <Button type="submit" disabled={loading} className="cursor-pointer">
               Ask Emily
             </Button>
           </form>

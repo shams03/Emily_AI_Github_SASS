@@ -12,6 +12,7 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
+import { uploadFile } from "@/lib/cloudinary";
 
 const MeetingCard = () => {
   const [isUploading, setIsUploading] = React.useState(false);
@@ -38,7 +39,7 @@ const MeetingCard = () => {
     },
   });
 
-  // using react drop zone for audio upload and 
+  // using react drop zone for audio upload and
   const { getRootProps, getInputProps } = useDropzone({
     accept: {
       "audio/*": [".mp3", ".wav", ".m4a"],
@@ -54,12 +55,11 @@ const MeetingCard = () => {
       const file = acceptedFiles[0];
       if (!file) return;
 
-      // after getting file, now upload it to cloudinary
-      // const downloadURL = (await uploadFile(
-      //   file as File,
-      //   setProgress,
-      // )) as string;
-      const downloadURL=""
+      // after getting file, now upload it to firebase storage
+      const downloadURL = (await uploadFile(
+        file as File,
+        setProgress,
+      )) as string;
       uploadMeeting.mutate(
         {
           projectId: project.id,
@@ -70,7 +70,7 @@ const MeetingCard = () => {
           onSuccess: (meeting) => {
             toast.success("Meeting uploaded successfully");
             router.push("/meetings");
-            // after successfull-upload, now callng the processMeeting mutation 
+            // after successfull-upload, now callng the processMeeting mutation
             processMeeting.mutateAsync({
               meetingUrl: downloadURL,
               meetingId: meeting.id,
@@ -86,7 +86,7 @@ const MeetingCard = () => {
       setIsUploading(false);
     },
   });
-  
+
   return (
     <Card
       className="col-span-2 flex flex-col items-center justify-center p-10"
@@ -104,9 +104,9 @@ const MeetingCard = () => {
             Powered by AI.
           </p>
           <div className="mt-6">
-            <Button disabled={isUploading}>
-              <Upload className="-ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true" />
-              Upload Meeting
+            <Button disabled={isUploading} className="cursor-pointer">
+              <Upload className="mr-1.5 -ml-0.5 h-5 w-5" aria-hidden="true" />
+              Upload Meeting (Max 50MB)
               <input className="hidden" {...getInputProps()} />
             </Button>
           </div>
@@ -118,7 +118,7 @@ const MeetingCard = () => {
           <CircularProgressbar
             value={progress}
             text={`${progress}%`}
-            className="size-20"
+            className="size-20 text-center "
             styles={buildStyles({
               pathColor: "black",
               textColor: "black",
