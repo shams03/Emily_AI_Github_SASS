@@ -54,7 +54,7 @@ function IssueCard({
           <CardDescription>{issue.headline}</CardDescription>
         </CardHeader>
         <CardContent>
-          <Button onClick={() => setOpen(true)}>Details</Button>
+          <Button className="cursor-pointer" onClick={() => setOpen(true)}>Details</Button>
         </CardContent>
       </Card>
     </>
