@@ -7,4 +7,11 @@ import "./src/env.js";
 /** @type {import("next").NextConfig} */
 const config = {};
 
+import path from "path";
+
+
+config.resolve.alias["@"] = path.resolve(__dirname, "src");
+
+
+
 export default config;
