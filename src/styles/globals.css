@@ -1,12 +1,64 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@tailwind utilities;
+
 @custom-variant dark (&:is(.dark *));
 
 @theme {
   --font-sans:
     var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 20%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 20%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 20%;
+
+    --primary: 0 80% 60%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 0 50% 90%;
+    --secondary-foreground: 0 0% 20%;
+
+    --muted: 0 0% 95%;
+    --muted-foreground: 0 0% 50%;
+
+    --accent: 0 80% 70%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 90%;
+    --input: 0 0% 85%;
+    --ring: 0 80% 60%;
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+
+       /* Emily Custom Colors */
+       --emily-red: #ff3b3b;
+       --emily-red-light: #ff6b6b;
+       --emily-white: #ffffff;
+       --emily-gray-light: #f0f0f0;
+       --emily-gray-dark: #333333;
+  }
 }
 
 @theme inline {
@@ -182,4 +234,172 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.637 0.237 25.331);
+}
+
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+@layer components {
+  .btn-anime {
+    @apply relative overflow-hidden font-medium py-2 px-6 rounded-md 
+    transition-all duration-300 hover:shadow-lg 
+    active:translate-y-1 active:shadow-none before:absolute before:inset-0 before:bg-white 
+    before:opacity-0 before:hover:opacity-20 before:transition-opacity;
+    background-color: var(--emily-red);
+    color: var(--emily-white);
+  }
+
+  .btn-anime:hover {
+    background-color: var(--emily-red-light);
+    box-shadow: 0 10px 25px rgba(255, 59, 59, 0.3);
+  }
+
+  .btn-anime-outline {
+    @apply relative overflow-hidden bg-transparent font-medium py-2 px-6 rounded-md
+    border-2 transition-all duration-300 hover:shadow-lg
+    active:translate-y-1 active:shadow-none;
+    border-color: var(--emily-red);
+    color: var(--emily-red);
+  }
+
+  .btn-anime-outline:hover {
+    background-color: rgba(255, 59, 59, 0.1);
+    box-shadow: 0 10px 25px rgba(255, 59, 59, 0.2);
+  }
+
+  .text-gradient {
+    background: linear-gradient(135deg, var(--emily-red), var(--emily-red-light));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  .anime-card {
+    @apply relative bg-white rounded-lg p-6
+    transition-all duration-300 hover:shadow-lg
+    before:absolute before:h-1 before:w-0 before:top-0 before:left-0
+    hover:before:w-full before:transition-all before:duration-300;
+    border: 1px solid var(--emily-gray-light);
+  }
+
+  .anime-card:before {
+    background-color: var(--emily-red);
+  }
+
+  .anime-card:hover {
+    box-shadow: 0 10px 25px rgba(255, 59, 59, 0.2);
+  }
+
+  /* Emily specific color utilities */
+  .bg-emily-red {
+    background-color: var(--emily-red) !important;
+  }
+
+  .bg-emily-red-light {
+    background-color: var(--emily-red-light) !important;
+  }
+
+  .text-emily-red {
+    color: var(--emily-red) !important;
+  }
+
+  .text-emily-gray-dark {
+    color: var(--emily-gray-dark) !important;
+  }
+
+  .bg-emily-gray-light {
+    background-color: var(--emily-gray-light) !important;
+  }
+
+  .border-emily-red {
+    border-color: var(--emily-red) !important;
+  }
+
+  .border-emily-gray-light {
+    border-color: var(--emily-gray-light) !important;
+  }
+
+  /* Background gradient utilities */
+  .bg-gradient-emily {
+    background: linear-gradient(135deg, var(--emily-red), var(--emily-red-light));
+  }
+
+  .bg-gradient-to-br-emily {
+    background: linear-gradient(to bottom right, white, var(--emily-gray-light));
+  }
+
+  .bg-gradient-to-r-emily {
+    background: linear-gradient(to right, var(--emily-red), var(--emily-red-light));
+  }
+}
+
+@layer utilities {
+  /* Animation utilities */
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .animate-pulse-soft {
+    animation: pulse-soft 4s ease-in-out infinite;
+  }
+
+  .animate-slide-up {
+    animation: slide-up 0.6s ease-out forwards;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  @keyframes pulse-soft {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; }
+  }
+
+  @keyframes slide-up {
+    0% { transform: translateY(20px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+  }
 }

@@ -9,7 +9,7 @@ const TeamMembers = () => {
   return (
     <div className="flex items-center gap-2">
       {members?.map((member) => (
-        <div key={member.id} className="relative group">
+        <div key={member.id} className="group relative">
           <img
             key={member.id}
             src={member.user.imageUrl || ""}

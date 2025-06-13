@@ -1,13 +1,21 @@
-import Link from "next/link";
 
-import { LatestPost } from "@/app/_components/post";
-import { api, HydrateClient } from "@/trpc/server";
-import {Button} from "@/components/ui/button";
+import Head from "next/head";
+import Index from "./Index";
 
-export default async function Home() {
-
-
+export default async function Home() {  
+  
   return (
-   <Button>Click me</Button>
+    <>
+      <Head>
+        <title>Emily - AI GitHub and Meeting SaaS</title>
+        <meta
+          name="description"
+          content="AI-powered GitHub and Meeting Management SaaS"
+        />
+        <link rel="icon" href="/logo.png" />
+      </Head>
+      <Index />
+    </>
   );
 }
+
