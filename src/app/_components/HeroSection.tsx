@@ -46,7 +46,7 @@ const HeroSection = () => {
               <Button
                 variant="outline"
                 className="btn-anime-outline px-8 py-6 text-lg"
-                onClick={() => router.push("/sign-up")}
+                onClick={() => window.open("https://youtu.be/ewAHOGcNlow", "_blank")}
               >
                 Watch Demo
               </Button>
