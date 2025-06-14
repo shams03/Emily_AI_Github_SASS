@@ -6,9 +6,23 @@ import FeaturesSection from "@/app/_components/FeaturesSection";
 import Footer from "@/app/_components/Footer";
 import Head from "next/head";
 import { useRouter } from "next/navigation";
+import {db} from "@/server/db"
+import { useEffect } from "react";
 
 const Index = () => {
   const router = useRouter();
+  useEffect(() => {
+    const uptimebot = async()=>{
+      try {
+        const user = await db.user.findFirst();
+        console.log(user);
+      } catch (error) {
+        console.error("Error fetching user:", error);
+      }
+    };
+    uptimebot()
+  }, []);
+  
   return (
     <div className="min-h-screen">
       <Navbar />
